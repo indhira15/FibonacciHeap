@@ -7,14 +7,14 @@ int main() {
     Fibonacci_heap<float>* fh = new Fibonacci_heap<float>();
 
     vector<NodoF<float>*> v;
-    for(int i=3; i<=10; ++i){
-        v.push_back(fh->Insert(i));
+    for(int i=1000; i>0; --i){
+        fh->Insert(i);
     }
-    v.push_back(fh->Insert(1));
-    fh->print();
-    fh->DeleteMin();
-    fh->print();
-    cout << fh->GetMinNodoValue() << endl;
-    fh->generatePDF();
+
+    for(int i=1000; i>0; --i){
+        cout << fh->DeleteMin()->key << endl;
+    }
+
+  //  fh->generatePDF();
     return 0;
 }

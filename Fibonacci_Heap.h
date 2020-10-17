@@ -70,6 +70,7 @@ public:
 			while(itr_child != aux->children.end()){
 				// maybe volvelos los hijos blancos
 				InsertNodo(*itr_child);
+				++itr_child;
 			}
 			fb_heap.remove(aux);
 			nodo_min = GetNewMinNodo();
