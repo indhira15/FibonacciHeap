@@ -11,6 +11,7 @@ using namespace std;
 
 #include "NodoF.h"
 
+
 template<class T>
 class Fibonacci_heap{
 private:
@@ -33,6 +34,7 @@ public:
 	void InsertNodo(NodoT *n){
 		fb_heap.push_back(n);
 	}
+	/*
 	NodoT* GetNewMinNodo(){
 
 	}
@@ -48,6 +50,7 @@ public:
 	void Compactar(){
 
 	}
+	*/
 
 };
 
