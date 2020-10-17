@@ -4,9 +4,11 @@
 #include <iostream>
 #include <vector>
 #include <array>
+#include <set>
 
 #include "Fibonacci_Heap.h"
 #include "VectorCaracteristico.h"
+#include "Arista.h"
 
 using namespace std;
 
@@ -201,15 +203,16 @@ int main() {
 	system("clear");
 
 	Fibonacci_heap<float>* fh = new Fibonacci_heap<float>();
+	set<VectorCaracteristico<float>> visitados;
 
-    vector<NodoF<float>*> v;
-    for(int i=1000; i>0; --i){
-        fh->Insert(i);
-    }
+	// vector<NodoF<float>*> v;
+	// for(int i=1000; i>0; --i){
+	// 	fh->Insert(i);
+	// }
 
-    for(int i=1000; i>0; --i){
-        cout << fh->DeleteMin()->key << endl;
-    }
+	// for(int i=1000; i>0; --i){
+	// 	cout << fh->DeleteMin()->key << endl;
+	// }
 
 	insertFemaleImages("/Users/gabrielspranger/Desktop/EDA/FibonacciHeap/faces94/female");
 	insertMaleImages("/Users/gabrielspranger/Desktop/EDA/FibonacciHeap/faces94/male");
@@ -228,12 +231,20 @@ int main() {
 		for (int j = i+1; j < vectoresCaracteristicos.size(); ++j, ++n) {
 			auto vc2 = *vectoresCaracteristicos[j]->get();
 			cout << n << "\n";
-			int acc = 0;
+			float acc = 0.0;
 			for (int k = 0; k < vc1.size(); ++k) {
-				acc += (int)pow(float(vc1[k] - vc2[k]), 2);
+				acc += pow(float(vc1[k] - vc2[k]), 2);
 			}
-			cout << acc << "\n";
+			Arista arista = new Arista(&vc1, &vc2, acc);
+			fh->insertArista(arista);
 		}
+	}
+
+	for (int i = 0; i < fh->get_size(); ++i) {
+		auto minimo = fh->DeleteMin();
+		auto encontrado1 = visitados.find(minimo->arista->weight);
+		// kruskall
+		
 	}
 
 	return 0;

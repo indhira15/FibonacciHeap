@@ -4,6 +4,8 @@
 #include <string>
 #include <list>
 
+#include "Arista.h"
+
 #define NodoT NodoF<T> 
 
 using namespace std;
@@ -21,7 +23,7 @@ public:
 	Color estado;
 	list<NodoT*> children;
 	NodoT *padre;
-
+	Arista<T>* arista;
 
 	NodoF(T value){
 		rank = 0;

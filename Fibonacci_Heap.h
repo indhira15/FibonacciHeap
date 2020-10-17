@@ -196,6 +196,10 @@ public:
 	    PrintSubTreeSpecial(file, *it);
 	  }
 	}
+
+	int get_size() {
+		return fh_size;
+	}
 };
 
 
