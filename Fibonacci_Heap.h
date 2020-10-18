@@ -12,7 +12,6 @@ using namespace std;
 
 #include "NodoF.h"
 
-
 template<class T>
 class Fibonacci_heap{
 private:

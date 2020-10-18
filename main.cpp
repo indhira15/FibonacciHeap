@@ -14,19 +14,6 @@ using namespace std;
 
 vector<VectorCaracteristico<float>*> vectoresCaracteristicos;
 
-std::string exec(const char* cmd) {
-    std::array<char, 128> buffer;
-    std::string result;
-    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
-    if (!pipe) {
-        throw std::runtime_error("popen() failed!");
-    }
-    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
-        result += buffer.data();
-    }
-    return result;
-}
-
 void insertNImagesInDirectory(string base, string directory, int nFiles) {
 	for (int i = 1; i <= nFiles; ++i) {
 		string path = base + "/" + directory + "/" + directory + "." + to_string(i) + ".jpg";
@@ -235,16 +222,21 @@ int main() {
 			for (int k = 0; k < vc1.size(); ++k) {
 				acc += pow(float(vc1[k] - vc2[k]), 2);
 			}
-			Arista arista = new Arista(&vc1, &vc2, acc);
+			// chequear si esta bien
+			Arista<float>* arista = new Arista<float>(vectoresCaracteristicos[i], vectoresCaracteristicos[j], acc);
 			fh->insertArista(arista);
 		}
 	}
 
 	for (int i = 0; i < fh->get_size(); ++i) {
 		auto minimo = fh->DeleteMin();
-		auto encontrado1 = visitados.find(minimo->arista->weight);
+		auto encontrado1 = visitados.find(minimo->arista->nodo1);
+		auto encontrado2 = visitados.find(minimo->arista->nodo2);
 		// kruskall
-		
+		if (encontrado1 != visitados.end() || encontrado2 != visitados.end()) {
+			visitados.insert(minimo->arista->nodo1);
+			visitados.insert(minimo->arista->nodo2);
+		}
 	}
 
 	return 0;
