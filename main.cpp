@@ -1,5 +1,4 @@
 #define cimg_use_jpeg 1
-//#define cimg_use_png 1
 
 #include <iostream>
 #include <vector>
@@ -20,33 +19,22 @@ void insertMaleImages(string directory, int n);
 void insertMaleStaffImages(string directory, int n);
 void generatePDF(list<Arista<float>*>& grafo);
 
+
 int main() {
-
-	//system("clear");
-
 	Fibonacci_heap<float, Arista<float>> *fh = new Fibonacci_heap<float, Arista<float>>();
 	set<VectorCaracteristico<float>*> visitados;
 
-	// vector<NodoF<float>*> v;
-	// for(int i=1000; i>0; --i){
-	// 	fh->Insert(i);
-	// }
-
-	// for(int i=1000; i>0; --i){
-	// 	cout << fh->DeleteMin()->key << endl;
-	// }
-// /Users/gabrielspranger/Desktop/EDA/FibonacciHeap/faces94/female
-	insertFemaleImages("/Users/gabrielspranger/Desktop/EDA/FibonacciHeap/faces94/female", 10);
-	insertMaleImages("/Users/gabrielspranger/Desktop/EDA/FibonacciHeap/faces94/male", 10);
-	insertMaleStaffImages("/Users/gabrielspranger/Desktop/EDA/FibonacciHeap/faces94/malestaff", 10);
+	char cwd[2048];
+	getcwd(cwd, sizeof(cwd));
+	string userpath = cwd;
+	insertFemaleImages(userpath + "/faces94/female", 10);
+	insertMaleImages(userpath + "/faces94/male", 10);
+	insertMaleStaffImages(userpath + "/faces94/malestaff", 10);
 	
-	// cada nodo es un vector caracteristico y el nombre de la imagen
-
+	// cada nodo es un vector caracteristico que contiene el path
 	// hallar la distancia euclideana entre dos vectores caracteristicos
-		// ver imagen del Notion
-
-	cout << vectoresCaracteristicos.size() << endl;
-
+	int number_of_nodos = vectoresCaracteristicos.size();
+	cout << number_of_nodos<< endl;
 	int n = 1;
 	for (int i = 0; i < vectoresCaracteristicos.size(); ++i) {
 		auto vc1 = *vectoresCaracteristicos[i]->get();
@@ -63,30 +51,22 @@ int main() {
 		}
 	}
 
-	list<Arista<float>*> grafo;
 	// kruscal
+	list<Arista<float>*> grafo;
 	int size_f = fh->get_size();
 	cout << "size of fh: " << size_f << "\n";
-	for (int i = 0; i < size_f; ++i) {
+	for (int i = 0; (i < size_f) && (visitados.size() != number_of_nodos); ++i) {
 		auto minimo = fh->DeleteMin();
-		// if (minimo) {
 			auto encontrado1 = visitados.find(minimo->data->nodo1);
 			auto encontrado2 = visitados.find(minimo->data->nodo2);
-			// kruskall
-				// si encontrado1 o encontrado2 no estan en visitados
 			if (encontrado1 == visitados.end() || encontrado2 == visitados.end()) {
 				visitados.insert(minimo->data->nodo1);
 				visitados.insert(minimo->data->nodo2);
 				grafo.push_back(minimo->getData());
 			}	
-		// }
 	}
-
-	cout << grafo.size() << endl;
-
+	cout << "Aristas en el grafo: "<< grafo.size() << endl;
 	generatePDF(grafo);
-
-	// eliminar las aristas mas grandes
 	return 0;
 }
 
@@ -99,20 +79,11 @@ void generatePDF(list<Arista<float>*>& grafo) {
           graph << "graph {\n";
 
 		for (auto& arista : grafo) {
-			cout << arista->weight << "\n";
+			//cout << arista->weight << "\n";
 			graph << "\"" << arista->nodo1 << "\" [image=\"" << arista->nodo1->imgPath << "\" len=\"" << arista->weight << "\"];\n"; 
 			graph << "\"" << arista->nodo2 << "\" [image=\"" << arista->nodo2->imgPath << "\" len=\"" << arista->weight << "\"];\n"; 
 			graph << "\"" << arista->nodo1 << "\"" << " -- " << "\"" << arista->nodo2 << "\"" << ";\n";
 		}
-
-          // for (auto nodo : nodos) {
-          //      graph << "\"" << &nodo << "\"" << " [image=\"" << nodo.imgPath << "\"];\n"; 
-          // }
-
-          // for (auto arista : aristas) {
-          //      graph << &arista.node1 << " -- " << &arista.node2 << ";\n";
-          // }
-
           graph << "}";
           graph.close();
      }
@@ -288,7 +259,6 @@ void insertFemaleImages(string directory, int n){
 void insertNImagesInDirectory(string base, string directory, int nFiles) {
 	for (int i = 1; i <= nFiles; ++i) {
 		string path = base + "/" + directory + "/" + directory + "." + to_string(i) + ".jpg";
-		// cout << path << "\n";
 		VectorCaracteristico<float>* vc = new VectorCaracteristico<float>(path.c_str());
 	 	vectoresCaracteristicos.push_back(vc);
 	}

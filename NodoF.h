@@ -10,20 +10,13 @@
 
 using namespace std;
 
-enum Color{
-	Blanco = 0,
-	Negro = 1
-};
-
 template<class T, class D>
 class NodoF{
 public:
 	int rank;
 	T key;
-	Color estado;
 	list<NodoT*> children;
 	NodoT *padre;
-	//Arista<T>* arista;
 	D *data;
 
 	NodoF(T value){

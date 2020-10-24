@@ -24,20 +24,26 @@ public:
 
 	NodoT* Insert(T key, D *data){
 		NodoT *n = new NodoT(key, data);
-		InsertNodo(n);
-		if(nodo_min==nullptr || key < nodo_min->key){
+		fb_heap.push_back(n);
+		if(nodo_min == nullptr || key < nodo_min->key){
 			nodo_min = n;
 		}
 		++fh_size;
 		return n;
 	}
 
-	void InsertNodo(NodoT *n){
+	NodoT* Insert(T key){
+		NodoT *n = new NodoT(key);
 		fb_heap.push_back(n);
+		if(nodo_min == nullptr || key < nodo_min->key){
+			nodo_min = n;
+		}
+		++fh_size;
+		return n;
 	}
 
 	NodoT* GetNewMinNodo(){
-		if(fb_heap.size()>0){
+		if(fb_heap.size() > 0){
 			auto aux = *fb_heap.begin();
 			for(auto &a:fb_heap){
 				if(a->key < aux->key){
@@ -51,47 +57,45 @@ public:
 	}
 
 	NodoT* GetMinNodo(){
-		if(fh_size>0)
-			return nodo_min;
-		else
-			return nullptr;
+		return nodo_min;
 	}
+
 	T GetMinNodoValue(){
-		if(fh_size > 0)
+		if(nodo_min !=  nullptr)
 			return nodo_min->key;
 		else
 			return -1;
 	}
 	NodoT* DeleteMin(){
-		// retorna el min y lo borra
+		// retorna el nodo minimo y lo borra
 		if(fh_size > 0){
 			NodoT* aux = GetMinNodo();
 			auto itr_child = aux->children.begin();
 			while(itr_child != aux->children.end()){
-				// maybe volvelos los hijos blancos
-				InsertNodo(*itr_child);
+				// insertamos todos sus hijos en el heap
+				fb_heap.push_back(*itr_child);
 				++itr_child;
 			}
 			fb_heap.remove(aux);
 			nodo_min = GetNewMinNodo();
-
 			Compactar();
 			return aux;
 		}
 		else
 			return nullptr;
 	}
-	// siempre ponerlo en la posicion del primer nodo
+
+	// unir dos nodos siempre pone el nodo resultado en el primer paramentro
 	NodoT* Unir_dos_nodos(NodoT* &a, NodoT* &b){
 		if(a->key < b->key){
-	      a->rank = (max(a->rank, b->rank+1));
+	      a->rank = a->rank +1;
 	      b->padre = a;
 	      a->children.push_back(b);
 	      fb_heap.remove(b);
 	      return a;
 	    }
 	    else{
-	      b->rank = (max(b->rank, a->rank+1));
+	      b->rank = b->rank +1;
 	      a->padre = b;
 	      b->children.push_back(a);
 	      fb_heap.remove(b);
@@ -101,23 +105,23 @@ public:
 	}
 
 	void Compactar(){
-		int tm = log2(fh_size) +1;
+		int tm = log2(fh_size) + 1;
 		vector<NodoT*> v(tm);
 		fill(v.begin(), v.end(), nullptr);
+
 		NodoT* nodo_aux;
+		int id_aux;
 		for(auto i=fb_heap.begin(); i!=fb_heap.end(); ++i){
 			if(v[(*i)->rank] != nullptr){
-				int aux2 = (*i)->rank;
+				id_aux = (*i)->rank;
 				nodo_aux = Unir_dos_nodos((*i),v[(*i)->rank]);
-				v[aux2] = nullptr;
-				--i;
+				v[id_aux] = nullptr;
+				--i; // para volver a verificar este nodo
 			}
 			else{
 				v[(*i)->rank] = (*i);
 			}
 		}
-
-
 	}
 
 	void print(){
