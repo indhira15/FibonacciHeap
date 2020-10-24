@@ -1,6 +1,8 @@
 #ifndef VECTORCARACTERISTICO
 #define VECTORCARACTERISTICO
 
+#define cimg_use_jpeg 1
+
 #include "CImg.h"
 
 #include <iostream>

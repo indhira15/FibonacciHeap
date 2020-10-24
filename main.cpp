@@ -23,11 +23,11 @@ void insertNImagesInDirectory(string base, string directory, int nFiles) {
 	}
 }
 
-void insertFemaleImages(string directory) {
+void insertFemaleImages(string directory){
 	insertNImagesInDirectory(directory, "9336923", 20);
 	insertNImagesInDirectory(directory, "9338535", 20);
 	insertNImagesInDirectory(directory, "anpage", 20);
-	insertNImagesInDirectory(directory, "asamma", 20);
+/*	insertNImagesInDirectory(directory, "asamma", 20);
 	insertNImagesInDirectory(directory, "asewil", 20);
 	insertNImagesInDirectory(directory, "astefa", 20);
 	insertNImagesInDirectory(directory, "drbost", 20);
@@ -44,13 +44,14 @@ void insertFemaleImages(string directory) {
 	insertNImagesInDirectory(directory, "slbirc", 20);
 	insertNImagesInDirectory(directory, "vstros", 20);
 	insertNImagesInDirectory(directory, "yfhsie", 20);
+*/
 }
 
 void insertMaleImages(string directory) {
 	insertNImagesInDirectory(directory, "9326871", 20);
 	insertNImagesInDirectory(directory, "9332898", 20);
 	insertNImagesInDirectory(directory, "9338446", 20);
-	insertNImagesInDirectory(directory, "9338454", 20);
+/*	insertNImagesInDirectory(directory, "9338454", 20);
 	insertNImagesInDirectory(directory, "9338462", 20);
 	insertNImagesInDirectory(directory, "9338489", 20);
 	insertNImagesInDirectory(directory, "9338497", 20);
@@ -160,13 +161,14 @@ void insertMaleImages(string directory) {
 	insertNImagesInDirectory(directory, "vpsavo", 20);
 	insertNImagesInDirectory(directory, "whussa", 20);
 	insertNImagesInDirectory(directory, "wjalbe", 20);
+*/
 }
 
 void insertMaleStaffImages(string directory) {
 	insertNImagesInDirectory(directory, "anonym", 20);
 	insertNImagesInDirectory(directory, "anonym1", 20);
 	insertNImagesInDirectory(directory, "anonym2", 20);
-	insertNImagesInDirectory(directory, "cwang", 20);
+/*	insertNImagesInDirectory(directory, "cwang", 20);
 	insertNImagesInDirectory(directory, "doraj", 20);
 	insertNImagesInDirectory(directory, "fordj", 20);
 	insertNImagesInDirectory(directory, "hartb", 20);
@@ -183,14 +185,15 @@ void insertMaleStaffImages(string directory) {
 	insertNImagesInDirectory(directory, "spacl", 20);
 	insertNImagesInDirectory(directory, "tony", 20);
 	insertNImagesInDirectory(directory, "voudcx", 20);
+*/
 }
 
 int main() {
 
-	system("clear");
+	//system("clear");
 
-	Fibonacci_heap<float>* fh = new Fibonacci_heap<float>();
-	set<VectorCaracteristico<float>> visitados;
+	Fibonacci_heap<float, Arista<float>> *fh = new Fibonacci_heap<float, Arista<float>>();
+	set<VectorCaracteristico<float>*> visitados;
 
 	// vector<NodoF<float>*> v;
 	// for(int i=1000; i>0; --i){
@@ -200,10 +203,10 @@ int main() {
 	// for(int i=1000; i>0; --i){
 	// 	cout << fh->DeleteMin()->key << endl;
 	// }
-
-	insertFemaleImages("/Users/gabrielspranger/Desktop/EDA/FibonacciHeap/faces94/female");
-	insertMaleImages("/Users/gabrielspranger/Desktop/EDA/FibonacciHeap/faces94/male");
-	insertMaleStaffImages("/Users/gabrielspranger/Desktop/EDA/FibonacciHeap/faces94/malestaff");
+// /Users/gabrielspranger/Desktop/EDA/FibonacciHeap/faces94/female
+	insertFemaleImages("/home/indhira/Escritorio/u2020_2/eda/proyectos/FibonacciHeap/faces94/female");
+	insertMaleImages("/home/indhira/Escritorio/u2020_2/eda/proyectos/FibonacciHeap/faces94/male");
+	insertMaleStaffImages("/home/indhira/Escritorio/u2020_2/eda/proyectos/FibonacciHeap/faces94/malestaff");
 	
 	// cada nodo es un vector caracteristico y el nombre de la imagen
 
@@ -217,27 +220,41 @@ int main() {
 		auto vc1 = *vectoresCaracteristicos[i]->get();
 		for (int j = i+1; j < vectoresCaracteristicos.size(); ++j, ++n) {
 			auto vc2 = *vectoresCaracteristicos[j]->get();
-			cout << n << "\n";
+			//cout << n << "\n";
 			float acc = 0.0;
 			for (int k = 0; k < vc1.size(); ++k) {
 				acc += pow(float(vc1[k] - vc2[k]), 2);
 			}
 			// chequear si esta bien
 			Arista<float>* arista = new Arista<float>(vectoresCaracteristicos[i], vectoresCaracteristicos[j], acc);
-			fh->insertArista(arista);
+			fh->Insert(arista->weight, arista);
 		}
 	}
 
-	for (int i = 0; i < fh->get_size(); ++i) {
+	list<Arista<float>*> grafo;
+	// kruscal
+	int size_f = fh->get_size();
+	for (int i = 0; i < size_f; ++i) {
 		auto minimo = fh->DeleteMin();
-		auto encontrado1 = visitados.find(minimo->arista->nodo1);
-		auto encontrado2 = visitados.find(minimo->arista->nodo2);
+		auto encontrado1 = visitados.find(minimo->data->nodo1);
+		auto encontrado2 = visitados.find(minimo->data->nodo2);
 		// kruskall
-		if (encontrado1 != visitados.end() || encontrado2 != visitados.end()) {
-			visitados.insert(minimo->arista->nodo1);
-			visitados.insert(minimo->arista->nodo2);
+			// si encontrado1 o encontrado2 no estan en visitados
+		if (encontrado1 == visitados.end() || encontrado2 == visitados.end()) {
+			visitados.insert(minimo->data->nodo1);
+			visitados.insert(minimo->data->nodo2);
+			grafo.push_back(minimo->getData());
 		}
 	}
+	cout << grafo.size() << endl;
 
+	// le quitamos las 3 aristas mas grandes
+	for(int i=0; i<3; ++i){
+		grafo.pop_back();
+	}
+
+	cout << grafo.size() << endl;
+
+	// eliminar las aristas mas grandes
 	return 0;
 }

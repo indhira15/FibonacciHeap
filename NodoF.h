@@ -6,7 +6,7 @@
 
 #include "Arista.h"
 
-#define NodoT NodoF<T> 
+#define NodoT NodoF<T,D>
 
 using namespace std;
 
@@ -15,7 +15,7 @@ enum Color{
 	Negro = 1
 };
 
-template<class T>
+template<class T, class D>
 class NodoF{
 public:
 	int rank;
@@ -23,11 +23,22 @@ public:
 	Color estado;
 	list<NodoT*> children;
 	NodoT *padre;
-	Arista<T>* arista;
+	//Arista<T>* arista;
+	D *data;
 
 	NodoF(T value){
 		rank = 0;
 		key = value;
+	}
+
+	NodoF(T value, D *dat){
+		rank = 0;
+		key = value;
+		data = dat;
+	}
+
+	D* getData(){
+		return data;
 	}
 
 };

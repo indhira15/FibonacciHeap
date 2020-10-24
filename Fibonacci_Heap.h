@@ -12,7 +12,7 @@ using namespace std;
 
 #include "NodoF.h"
 
-template<class T>
+template<class T, class D>
 class Fibonacci_heap{
 private:
 	int fh_size;
@@ -22,8 +22,8 @@ private:
 public:
 	Fibonacci_heap(): fh_size{0}{}
 
-	NodoT* Insert(T key){
-		NodoT *n = new NodoT(key);
+	NodoT* Insert(T key, D *data){
+		NodoT *n = new NodoT(key, data);
 		InsertNodo(n);
 		if(nodo_min==nullptr || key < nodo_min->key){
 			nodo_min = n;
@@ -31,8 +31,9 @@ public:
 		++fh_size;
 		return n;
 	}
+
 	void InsertNodo(NodoT *n){
-		fb_heap.push_front(n);
+		fb_heap.push_back(n);
 	}
 
 	NodoT* GetNewMinNodo(){
@@ -85,14 +86,14 @@ public:
 		if(a->key < b->key){
 	      a->rank = (max(a->rank, b->rank+1));
 	      b->padre = a;
-	      a->children.push_front(b);
+	      a->children.push_back(b);
 	      fb_heap.remove(b);
 	      return a;
 	    }
 	    else{
 	      b->rank = (max(b->rank, a->rank+1));
 	      a->padre = b;
-	      b->children.push_front(a);
+	      b->children.push_back(a);
 	      fb_heap.remove(b);
 	      a = b;
 	      return a;
