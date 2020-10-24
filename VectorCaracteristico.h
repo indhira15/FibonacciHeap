@@ -17,8 +17,9 @@ class VectorCaracteristico {
      vector<T>* vc;
 
 public:
-     const char* imgPath;
-     VectorCaracteristico(const char* imgPath): imgPath{imgPath} {
+     char imgPath[100];
+     VectorCaracteristico(const char* imgPath) {
+          strcpy(this->imgPath, imgPath);
           CImg<T> A(imgPath);
           CImg<T> B = A.haar(false, 1);
           CImg<T> C = B.crop(0, 0, 89, 99);
