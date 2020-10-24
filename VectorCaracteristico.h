@@ -15,9 +15,9 @@ using namespace cimg_library;
 template <typename T>
 class VectorCaracteristico {
      vector<T>* vc;
-     const char* imgPath;
 
 public:
+     const char* imgPath;
      VectorCaracteristico(const char* imgPath): imgPath{imgPath} {
           CImg<T> A(imgPath);
           CImg<T> B = A.haar(false, 1);
