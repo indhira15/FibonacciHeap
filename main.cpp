@@ -147,8 +147,8 @@ float getDistance(vector<float>& vc1, vector<float>& vc2, distanceMethod method)
 void insertMaleStaffImages(string directory, int n) {
 	insertNImagesInDirectory(directory, "anonym", n);
 	insertNImagesInDirectory(directory, "anonym1", n);
-	insertNImagesInDirectory(directory, "anonym2", n);
-	insertNImagesInDirectory(directory, "cwang", n);
+	// insertNImagesInDirectory(directory, "anonym2", n);
+	// insertNImagesInDirectory(directory, "cwang", n);
 	// insertNImagesInDirectory(directory, "doraj", n);
 	// insertNImagesInDirectory(directory, "fordj", n);
 	// insertNImagesInDirectory(directory, "hartb", n);
@@ -170,11 +170,11 @@ void insertMaleStaffImages(string directory, int n) {
 void insertMaleImages(string directory, int n) {
 	insertNImagesInDirectory(directory, "9326871", n);
 	insertNImagesInDirectory(directory, "9332898", n);
-	insertNImagesInDirectory(directory, "9338446", n);
-	insertNImagesInDirectory(directory, "9338454", n);
+	// insertNImagesInDirectory(directory, "9338446", n);
+/*	insertNImagesInDirectory(directory, "9338454", n);
 	insertNImagesInDirectory(directory, "9338462", n);
 	insertNImagesInDirectory(directory, "9338489", n);
-/*	insertNImagesInDirectory(directory, "9338497", n);
+	insertNImagesInDirectory(directory, "9338497", n);
 	insertNImagesInDirectory(directory, "9338519", n);
 	insertNImagesInDirectory(directory, "9338527", n);
 	insertNImagesInDirectory(directory, "9338543", n);
@@ -287,8 +287,8 @@ void insertMaleImages(string directory, int n) {
 void insertFemaleImages(string directory, int n){
 	insertNImagesInDirectory(directory, "9336923", n);
 	insertNImagesInDirectory(directory, "9338535", n);
-	insertNImagesInDirectory(directory, "anpage", n);
-	insertNImagesInDirectory(directory, "asamma", n);
+	// insertNImagesInDirectory(directory, "anpage", n);
+	// insertNImagesInDirectory(directory, "asamma", n);
 	// insertNImagesInDirectory(directory, "asewil", n);
 	//insertNImagesInDirectory(directory, "astefa", n);
 	// insertNImagesInDirectory(directory, "drbost", n);
