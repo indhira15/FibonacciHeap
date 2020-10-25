@@ -34,9 +34,10 @@ int main() {
 	char cwd[2048];
 	getcwd(cwd, sizeof(cwd));
 	string userpath = cwd;
-	insertFemaleImages(userpath + "/faces94/female", 10);
-	insertMaleImages(userpath + "/faces94/male", 10);
-	insertMaleStaffImages(userpath + "/faces94/malestaff", 10);
+	int numero_fotos_por_persona = 10;
+	insertFemaleImages(userpath + "/faces94/female", numero_fotos_por_persona);
+	insertMaleImages(userpath + "/faces94/male", numero_fotos_por_persona);
+	insertMaleStaffImages(userpath + "/faces94/malestaff", numero_fotos_por_persona);
 	
 	// cada nodo es un vector caracteristico que contiene el path
 	// hallar la distancia euclideana entre dos vectores caracteristicos
@@ -80,42 +81,11 @@ int main() {
 			}
  		}
 	}
-	int n_personas = 6;
+	int n_personas = number_of_nodos/numero_fotos_por_persona;
 	for(int i=1; i<n_personas; ++i){
 		grafo.pop_back();
 	}
 
-/*
-	for (int i = 0; (i < size_f) & (grafo.size()<number_of_nodos-1); ++i) {
-		auto minimo = fh->DeleteMin();
-		auto encontrado1 = visitados.find(minimo->data->nodo1);
-		auto encontrado2 = visitados.find(minimo->data->nodo2);
-		enc1 = (encontrado1 == visitados.end());
-		enc2 = (encontrado2 == visitados.end());
-		if(enc1 & enc2){
-			minimo->data->nodo2->padre = minimo->data->nodo1->padre; 
-		}
-
-		if( enc1 || enc2){ // si no esta enc1 o enc2
-			if(!enc1){ // si esta enc1
-				//minimo->data->nodo1->padre =  (minimo->data->nodo1->padre);
-			}
-			if(!enc2){ // si esta enc2
-				minimo->data->nodo1->padre = (minimo->data->nodo2->padre);
-				minimo->data->nodo2->padre = (minimo->data->nodo1->padre);
-			}
-			visitados.insert(minimo->data->nodo1);
-			visitados.insert(minimo->data->nodo2);
-			grafo.push_back(minimo->getData());
-
-		}else{
-			if(minimo->data->nodo1->padre != minimo->data->nodo2->padre){
-				cout << "diferentes"<<endl;
-				minimo->data->nodo2->padre = minimo->data->nodo1->padre;
-				grafo.push_back(minimo->getData());
-			}
-		}
-	}*/
 	cout << "Aristas en el grafo: "<< grafo.size() << endl;
 	generatePDF(grafo);
 	return 0;
@@ -130,7 +100,6 @@ void generatePDF(list<Arista<float>*>& grafo) {
           graph << "graph {\n";
 
 		for (auto& arista : grafo) {
-			//cout << arista->weight << "\n";
 			graph << "\"" << arista->nodo1 << "\" [image=\"" << arista->nodo1->imgPath << "\" len=\"" << arista->weight << "\"];\n"; 
 			graph << "\"" << arista->nodo2 << "\" [image=\"" << arista->nodo2->imgPath << "\" len=\"" << arista->weight << "\"];\n"; 
 			graph << "\"" << arista->nodo1 << "\"" << " -- " << "\"" << arista->nodo2 << "\"" << ";\n";
@@ -178,164 +147,164 @@ float getDistance(vector<float>& vc1, vector<float>& vc2, distanceMethod method)
 void insertMaleStaffImages(string directory, int n) {
 	insertNImagesInDirectory(directory, "anonym", n);
 	insertNImagesInDirectory(directory, "anonym1", n);
-	// insertNImagesInDirectory(directory, "anonym2", 20);
-	// insertNImagesInDirectory(directory, "cwang", 20);
-	// insertNImagesInDirectory(directory, "doraj", 20);
-	// insertNImagesInDirectory(directory, "fordj", 20);
-	// insertNImagesInDirectory(directory, "hartb", 20);
-	// insertNImagesInDirectory(directory, "hensm", 20);
+	insertNImagesInDirectory(directory, "anonym2", n);
+	insertNImagesInDirectory(directory, "cwang", n);
+	// insertNImagesInDirectory(directory, "doraj", n);
+	// insertNImagesInDirectory(directory, "fordj", n);
+	// insertNImagesInDirectory(directory, "hartb", n);
+	// insertNImagesInDirectory(directory, "hensm", n);
 	//insertNImagesInDirectory(directory, "ieorf", n);
-	// insertNImagesInDirectory(directory, "lyond", 20);
+	// insertNImagesInDirectory(directory, "lyond", n);
 	//insertNImagesInDirectory(directory, "macci", n);
-	// insertNImagesInDirectory(directory, "martin", 20);
-	// insertNImagesInDirectory(directory, "michael", 20);
-	// insertNImagesInDirectory(directory, "moors", 20);
-	// insertNImagesInDirectory(directory, "obeidn", 20);
-	// insertNImagesInDirectory(directory, "robin", 20);
-	// insertNImagesInDirectory(directory, "sandm", 20);
-	// insertNImagesInDirectory(directory, "spacl", 20);
-	// insertNImagesInDirectory(directory, "tony", 20);
-	// insertNImagesInDirectory(directory, "voudcx", 20);
+	// insertNImagesInDirectory(directory, "martin", n);
+	// insertNImagesInDirectory(directory, "michael", n);
+	// insertNImagesInDirectory(directory, "moors", n);
+	// insertNImagesInDirectory(directory, "obeidn", n);
+	// insertNImagesInDirectory(directory, "robin", n);
+	// insertNImagesInDirectory(directory, "sandm", n);
+	// insertNImagesInDirectory(directory, "spacl", n);
+	// insertNImagesInDirectory(directory, "tony", n);
+	// insertNImagesInDirectory(directory, "voudcx", n);
 }
 
 void insertMaleImages(string directory, int n) {
 	insertNImagesInDirectory(directory, "9326871", n);
 	insertNImagesInDirectory(directory, "9332898", n);
-	// insertNImagesInDirectory(directory, "9338446", 20);
-/*	insertNImagesInDirectory(directory, "9338454", 20);
-	insertNImagesInDirectory(directory, "9338462", 20);
-	insertNImagesInDirectory(directory, "9338489", 20);
-	insertNImagesInDirectory(directory, "9338497", 20);
-	insertNImagesInDirectory(directory, "9338519", 20);
-	insertNImagesInDirectory(directory, "9338527", 20);
-	insertNImagesInDirectory(directory, "9338543", 20);
-	insertNImagesInDirectory(directory, "9414649", 20);
-	insertNImagesInDirectory(directory, "9416994", 20);
-	insertNImagesInDirectory(directory, "admars", 20);
-	insertNImagesInDirectory(directory, "ahodki", 20);
-	insertNImagesInDirectory(directory, "ajflem", 20);
-	insertNImagesInDirectory(directory, "ajones", 20);
-	insertNImagesInDirectory(directory, "ajsega", 20);
-	insertNImagesInDirectory(directory, "akatsi", 20);
-	insertNImagesInDirectory(directory, "ambarw", 20);
-	insertNImagesInDirectory(directory, "asheal", 20);
-	insertNImagesInDirectory(directory, "bplyce", 20);
-	insertNImagesInDirectory(directory, "cchris", 20);
-	insertNImagesInDirectory(directory, "ccjame", 20);
-	insertNImagesInDirectory(directory, "cferdo", 20);
-	insertNImagesInDirectory(directory, "cgboyc", 20);
-	insertNImagesInDirectory(directory, "cjcarr", 20);
-	insertNImagesInDirectory(directory, "cjdenn", 20);
-	insertNImagesInDirectory(directory, "cjsake", 20);
-	insertNImagesInDirectory(directory, "cmkirk", 20);
-	insertNImagesInDirectory(directory, "csanch", 20);
-	insertNImagesInDirectory(directory, "cshubb", 20);
-	insertNImagesInDirectory(directory, "cwchoi", 20);
-	insertNImagesInDirectory(directory, "dagran", 20);
-	insertNImagesInDirectory(directory, "dakram", 20);
-	insertNImagesInDirectory(directory, "dcbowe", 20);
-	insertNImagesInDirectory(directory, "dioann", 20);
-	insertNImagesInDirectory(directory, "djbirc", 20);
-	insertNImagesInDirectory(directory, "djhugh", 20);
-	insertNImagesInDirectory(directory, "djmart", 20);
-	insertNImagesInDirectory(directory, "dmwest", 20);
-	insertNImagesInDirectory(directory, "gdhatc", 20);
-	insertNImagesInDirectory(directory, "ggeorg", 20);
-	insertNImagesInDirectory(directory, "ggrego", 20);
-	insertNImagesInDirectory(directory, "gjhero", 20);
-	insertNImagesInDirectory(directory, "gjnorm", 20);
-	insertNImagesInDirectory(directory, "gmwate", 20);
-	insertNImagesInDirectory(directory, "gpapaz", 20);
-	insertNImagesInDirectory(directory, "gpsmit", 20);
-	insertNImagesInDirectory(directory, "gsreas", 20);
-	insertNImagesInDirectory(directory, "irdrew", 20);
-	insertNImagesInDirectory(directory, "jabins", 20);
-	insertNImagesInDirectory(directory, "jagrif", 20);
-	insertNImagesInDirectory(directory, "jcarte", 20);
-	insertNImagesInDirectory(directory, "jdbenm", 20);
-	insertNImagesInDirectory(directory, "jgloma", 20);
-	insertNImagesInDirectory(directory, "jlemon", 20);
-	insertNImagesInDirectory(directory, "jmedin", 20);
-	insertNImagesInDirectory(directory, "jrtobi", 20);
-	insertNImagesInDirectory(directory, "kaatki", 20);
-	insertNImagesInDirectory(directory, "kdjone", 20);
-	insertNImagesInDirectory(directory, "khchan", 20);
-	insertNImagesInDirectory(directory, "khughe", 20);
-	insertNImagesInDirectory(directory, "kjwith", 20);
-	insertNImagesInDirectory(directory, "lejnno", 20);
-	insertNImagesInDirectory(directory, "maasht", 20);
-	insertNImagesInDirectory(directory, "mberdo", 20);
-	insertNImagesInDirectory(directory, "mdpove", 20);
-	insertNImagesInDirectory(directory, "mefait", 20);
-	insertNImagesInDirectory(directory, "mhwill", 20);
-	insertNImagesInDirectory(directory, "miaduc", 20);
-	insertNImagesInDirectory(directory, "mjhans", 20);
-	insertNImagesInDirectory(directory, "mpetti", 20);
-	insertNImagesInDirectory(directory, "muthay", 20);
-	insertNImagesInDirectory(directory, "nahaig", 20);
-	insertNImagesInDirectory(directory, "namull", 20);
-	insertNImagesInDirectory(directory, "ndbank", 20);
-	insertNImagesInDirectory(directory, "ndhagu", 20);
-	insertNImagesInDirectory(directory, "nhrams", 20);
-	insertNImagesInDirectory(directory, "njmoor", 20);
-	insertNImagesInDirectory(directory, "npbour", 20);
-	insertNImagesInDirectory(directory, "npmitc", 20);
-	insertNImagesInDirectory(directory, "nrclar", 20);
-	insertNImagesInDirectory(directory, "nrrbar", 20);
-	insertNImagesInDirectory(directory, "nwilli", 20);
-	insertNImagesInDirectory(directory, "ohpark", 20);
-	insertNImagesInDirectory(directory, "pacole", 20);
-	insertNImagesInDirectory(directory, "pmives", 20);
-	insertNImagesInDirectory(directory, "pshurr", 20);
-	insertNImagesInDirectory(directory, "pspliu", 20);
-	insertNImagesInDirectory(directory, "ptnich", 20);
-	insertNImagesInDirectory(directory, "rarobi", 20);
-	insertNImagesInDirectory(directory, "rgharr", 20);
-	insertNImagesInDirectory(directory, "rgspru", 20);
-	insertNImagesInDirectory(directory, "rjlabr", 20);
-	insertNImagesInDirectory(directory, "rlocke", 20);
-	insertNImagesInDirectory(directory, "rmcoll", 20);
-	insertNImagesInDirectory(directory, "rmpugh", 20);
-	insertNImagesInDirectory(directory, "rnpwil", 20);
-	insertNImagesInDirectory(directory, "rrowle", 20);
-	insertNImagesInDirectory(directory, "rsanti", 20);
-	insertNImagesInDirectory(directory, "saduah", 20);
-	insertNImagesInDirectory(directory, "saedwa", 20);
-	insertNImagesInDirectory(directory, "sidick", 20);
-	insertNImagesInDirectory(directory, "sjbeck", 20);
-	insertNImagesInDirectory(directory, "skumar", 20);
-	insertNImagesInDirectory(directory, "smrobb", 20);
-	insertNImagesInDirectory(directory, "spletc", 20);
-	insertNImagesInDirectory(directory, "svkriz", 20);
-	insertNImagesInDirectory(directory, "swewin", 20);
-	insertNImagesInDirectory(directory, "swsmit", 20);
-	insertNImagesInDirectory(directory, "vpsavo", 20);
-	insertNImagesInDirectory(directory, "whussa", 20);
-	insertNImagesInDirectory(directory, "wjalbe", 20);
+	insertNImagesInDirectory(directory, "9338446", n);
+	insertNImagesInDirectory(directory, "9338454", n);
+	insertNImagesInDirectory(directory, "9338462", n);
+	insertNImagesInDirectory(directory, "9338489", n);
+/*	insertNImagesInDirectory(directory, "9338497", n);
+	insertNImagesInDirectory(directory, "9338519", n);
+	insertNImagesInDirectory(directory, "9338527", n);
+	insertNImagesInDirectory(directory, "9338543", n);
+	insertNImagesInDirectory(directory, "9414649", n);
+	insertNImagesInDirectory(directory, "9416994", n);
+	insertNImagesInDirectory(directory, "admars", n);
+	insertNImagesInDirectory(directory, "ahodki", n);
+	insertNImagesInDirectory(directory, "ajflem", n);
+	insertNImagesInDirectory(directory, "ajones", n);
+	insertNImagesInDirectory(directory, "ajsega", n);
+	insertNImagesInDirectory(directory, "akatsi", n);
+	insertNImagesInDirectory(directory, "ambarw", n);
+	insertNImagesInDirectory(directory, "asheal", n);
+	insertNImagesInDirectory(directory, "bplyce", n);
+	insertNImagesInDirectory(directory, "cchris", n);
+	insertNImagesInDirectory(directory, "ccjame", n);
+	insertNImagesInDirectory(directory, "cferdo", n);
+	insertNImagesInDirectory(directory, "cgboyc", n);
+	insertNImagesInDirectory(directory, "cjcarr", n);
+	insertNImagesInDirectory(directory, "cjdenn", n);
+	insertNImagesInDirectory(directory, "cjsake", n);
+	insertNImagesInDirectory(directory, "cmkirk", n);
+	insertNImagesInDirectory(directory, "csanch", n);
+	insertNImagesInDirectory(directory, "cshubb", n);
+	insertNImagesInDirectory(directory, "cwchoi", n);
+	insertNImagesInDirectory(directory, "dagran", n);
+	insertNImagesInDirectory(directory, "dakram", n);
+	insertNImagesInDirectory(directory, "dcbowe", n);
+	insertNImagesInDirectory(directory, "dioann", n);
+	insertNImagesInDirectory(directory, "djbirc", n);
+	insertNImagesInDirectory(directory, "djhugh", n);
+	insertNImagesInDirectory(directory, "djmart", n);
+	insertNImagesInDirectory(directory, "dmwest", n);
+	insertNImagesInDirectory(directory, "gdhatc", n);
+	insertNImagesInDirectory(directory, "ggeorg", n);
+	insertNImagesInDirectory(directory, "ggrego", n);
+	insertNImagesInDirectory(directory, "gjhero", n);
+	insertNImagesInDirectory(directory, "gjnorm", n);
+	insertNImagesInDirectory(directory, "gmwate", n);
+	insertNImagesInDirectory(directory, "gpapaz", n);
+	insertNImagesInDirectory(directory, "gpsmit", n);
+	insertNImagesInDirectory(directory, "gsreas", n);
+	insertNImagesInDirectory(directory, "irdrew", n);
+	insertNImagesInDirectory(directory, "jabins", n);
+	insertNImagesInDirectory(directory, "jagrif", n);
+	insertNImagesInDirectory(directory, "jcarte", n);
+	insertNImagesInDirectory(directory, "jdbenm", n);
+	insertNImagesInDirectory(directory, "jgloma", n);
+	insertNImagesInDirectory(directory, "jlemon", n);
+	insertNImagesInDirectory(directory, "jmedin", n);
+	insertNImagesInDirectory(directory, "jrtobi", n);
+	insertNImagesInDirectory(directory, "kaatki", n);
+	insertNImagesInDirectory(directory, "kdjone", n);
+	insertNImagesInDirectory(directory, "khchan", n);
+	insertNImagesInDirectory(directory, "khughe", n);
+	insertNImagesInDirectory(directory, "kjwith", n);
+	insertNImagesInDirectory(directory, "lejnno", n);
+	insertNImagesInDirectory(directory, "maasht", n);
+	insertNImagesInDirectory(directory, "mberdo", n);
+	insertNImagesInDirectory(directory, "mdpove", n);
+	insertNImagesInDirectory(directory, "mefait", n);
+	insertNImagesInDirectory(directory, "mhwill", n);
+	insertNImagesInDirectory(directory, "miaduc", n);
+	insertNImagesInDirectory(directory, "mjhans", n);
+	insertNImagesInDirectory(directory, "mpetti", n);
+	insertNImagesInDirectory(directory, "muthay", n);
+	insertNImagesInDirectory(directory, "nahaig", n);
+	insertNImagesInDirectory(directory, "namull", n);
+	insertNImagesInDirectory(directory, "ndbank", n);
+	insertNImagesInDirectory(directory, "ndhagu", n);
+	insertNImagesInDirectory(directory, "nhrams", n);
+	insertNImagesInDirectory(directory, "njmoor", n);
+	insertNImagesInDirectory(directory, "npbour", n);
+	insertNImagesInDirectory(directory, "npmitc", n);
+	insertNImagesInDirectory(directory, "nrclar", n);
+	insertNImagesInDirectory(directory, "nrrbar", n);
+	insertNImagesInDirectory(directory, "nwilli", n);
+	insertNImagesInDirectory(directory, "ohpark", n);
+	insertNImagesInDirectory(directory, "pacole", n);
+	insertNImagesInDirectory(directory, "pmives", n);
+	insertNImagesInDirectory(directory, "pshurr", n);
+	insertNImagesInDirectory(directory, "pspliu", n);
+	insertNImagesInDirectory(directory, "ptnich", n);
+	insertNImagesInDirectory(directory, "rarobi", n);
+	insertNImagesInDirectory(directory, "rgharr", n);
+	insertNImagesInDirectory(directory, "rgspru", n);
+	insertNImagesInDirectory(directory, "rjlabr", n);
+	insertNImagesInDirectory(directory, "rlocke", n);
+	insertNImagesInDirectory(directory, "rmcoll", n);
+	insertNImagesInDirectory(directory, "rmpugh", n);
+	insertNImagesInDirectory(directory, "rnpwil", n);
+	insertNImagesInDirectory(directory, "rrowle", n);
+	insertNImagesInDirectory(directory, "rsanti", n);
+	insertNImagesInDirectory(directory, "saduah", n);
+	insertNImagesInDirectory(directory, "saedwa", n);
+	insertNImagesInDirectory(directory, "sidick", n);
+	insertNImagesInDirectory(directory, "sjbeck", n);
+	insertNImagesInDirectory(directory, "skumar", n);
+	insertNImagesInDirectory(directory, "smrobb", n);
+	insertNImagesInDirectory(directory, "spletc", n);
+	insertNImagesInDirectory(directory, "svkriz", n);
+	insertNImagesInDirectory(directory, "swewin", n);
+	insertNImagesInDirectory(directory, "swsmit", n);
+	insertNImagesInDirectory(directory, "vpsavo", n);
+	insertNImagesInDirectory(directory, "whussa", n);
+	insertNImagesInDirectory(directory, "wjalbe", n);
 */
 }
 
 void insertFemaleImages(string directory, int n){
 	insertNImagesInDirectory(directory, "9336923", n);
 	insertNImagesInDirectory(directory, "9338535", n);
-	// insertNImagesInDirectory(directory, "anpage", 20);
-	// insertNImagesInDirectory(directory, "asamma", 20);
-	// insertNImagesInDirectory(directory, "asewil", 20);
+	insertNImagesInDirectory(directory, "anpage", n);
+	insertNImagesInDirectory(directory, "asamma", n);
+	// insertNImagesInDirectory(directory, "asewil", n);
 	//insertNImagesInDirectory(directory, "astefa", n);
-	// insertNImagesInDirectory(directory, "drbost", 20);
-	// insertNImagesInDirectory(directory, "ekavaz", 20);
-	// insertNImagesInDirectory(directory, "elduns", 20);
+	// insertNImagesInDirectory(directory, "drbost", n);
+	// insertNImagesInDirectory(directory, "ekavaz", n);
+	// insertNImagesInDirectory(directory, "elduns", n);
 	// // gotone tiene cosas raras
-	// insertNImagesInDirectory(directory, "kaknig", 20);
-	// insertNImagesInDirectory(directory, "klclar", 20);
-	// insertNImagesInDirectory(directory, "ksunth", 20);
-	// insertNImagesInDirectory(directory, "lfso", 20);
+	// insertNImagesInDirectory(directory, "kaknig", n);
+	// insertNImagesInDirectory(directory, "klclar", n);
+	// insertNImagesInDirectory(directory, "ksunth", n);
+	// insertNImagesInDirectory(directory, "lfso", n);
 	//insertNImagesInDirectory(directory, "mbutle", n);
-	// insertNImagesInDirectory(directory, "phughe", 20);
-	// insertNImagesInDirectory(directory, "sbains", 20);
-	// insertNImagesInDirectory(directory, "slbirc", 20);
-	// insertNImagesInDirectory(directory, "vstros", 20);
-	// insertNImagesInDirectory(directory, "yfhsie", 20);
+	// insertNImagesInDirectory(directory, "phughe", n);
+	// insertNImagesInDirectory(directory, "sbains", n);
+	// insertNImagesInDirectory(directory, "slbirc", n);
+	// insertNImagesInDirectory(directory, "vstros", n);
+	// insertNImagesInDirectory(directory, "yfhsie", n);
 }
 
 void insertNImagesInDirectory(string base, string directory, int nFiles) {
