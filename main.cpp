@@ -4,6 +4,7 @@
 #include <vector>
 #include <array>
 #include <set>
+#include <map>
 
 #include "Fibonacci_Heap.h"
 #include "VectorCaracteristico.h"
@@ -34,9 +35,13 @@ int main() {
 	// cada nodo es un vector caracteristico que contiene el path
 	// hallar la distancia euclideana entre dos vectores caracteristicos
 	int number_of_nodos = vectoresCaracteristicos.size();
+	map<VectorCaracteristico<float>*, VectorCaracteristico<float>*> m;
+
+
 	cout << number_of_nodos<< endl;
 	int n = 1;
 	for (int i = 0; i < vectoresCaracteristicos.size(); ++i) {
+		m[vectoresCaracteristicos[i]] = vectoresCaracteristicos[i];
 		auto vc1 = *vectoresCaracteristicos[i]->get();
 		for (int j = i+1; j < vectoresCaracteristicos.size(); ++j, ++n) {
 			auto vc2 = *vectoresCaracteristicos[j]->get();
@@ -55,16 +60,55 @@ int main() {
 	list<Arista<float>*> grafo;
 	int size_f = fh->get_size();
 	cout << "size of fh: " << size_f << "\n";
-	for (int i = 0; (i < size_f) && (visitados.size() != number_of_nodos); ++i) {
+	bool enc1, enc2;
+
+	for (int i = 0; (i < size_f) & (grafo.size()<number_of_nodos-1); ++i) {
 		auto minimo = fh->DeleteMin();
-			auto encontrado1 = visitados.find(minimo->data->nodo1);
-			auto encontrado2 = visitados.find(minimo->data->nodo2);
-			if (encontrado1 == visitados.end() || encontrado2 == visitados.end()) {
-				visitados.insert(minimo->data->nodo1);
-				visitados.insert(minimo->data->nodo2);
-				grafo.push_back(minimo->getData());
-			}	
+		auto arista = minimo->getData();
+		if(m[arista->nodo1] != m[arista->nodo2]){
+			grafo.push_back(arista);
+
+			auto old = m[arista->nodo1];
+			auto neww = m[arista->nodo2];
+			for(auto &e: m){
+				if(e.second == old){
+					e.second = neww;
+				}
+			}
+ 		}
 	}
+
+/*
+	for (int i = 0; (i < size_f) & (grafo.size()<number_of_nodos-1); ++i) {
+		auto minimo = fh->DeleteMin();
+		auto encontrado1 = visitados.find(minimo->data->nodo1);
+		auto encontrado2 = visitados.find(minimo->data->nodo2);
+		enc1 = (encontrado1 == visitados.end());
+		enc2 = (encontrado2 == visitados.end());
+		if(enc1 & enc2){
+			minimo->data->nodo2->padre = minimo->data->nodo1->padre; 
+		}
+
+		if( enc1 || enc2){ // si no esta enc1 o enc2
+			if(!enc1){ // si esta enc1
+				//minimo->data->nodo1->padre =  (minimo->data->nodo1->padre);
+			}
+			if(!enc2){ // si esta enc2
+				minimo->data->nodo1->padre = (minimo->data->nodo2->padre);
+				minimo->data->nodo2->padre = (minimo->data->nodo1->padre);
+			}
+			visitados.insert(minimo->data->nodo1);
+			visitados.insert(minimo->data->nodo2);
+			grafo.push_back(minimo->getData());
+
+		}else{
+			if(minimo->data->nodo1->padre != minimo->data->nodo2->padre){
+				cout << "diferentes"<<endl;
+				minimo->data->nodo2->padre = minimo->data->nodo1->padre;
+				grafo.push_back(minimo->getData());
+			}
+		}
+	}*/
 	cout << "Aristas en el grafo: "<< grafo.size() << endl;
 	generatePDF(grafo);
 	return 0;
@@ -102,9 +146,9 @@ void insertMaleStaffImages(string directory, int n) {
 	// insertNImagesInDirectory(directory, "fordj", 20);
 	// insertNImagesInDirectory(directory, "hartb", 20);
 	// insertNImagesInDirectory(directory, "hensm", 20);
-	insertNImagesInDirectory(directory, "ieorf", n);
+	//insertNImagesInDirectory(directory, "ieorf", n);
 	// insertNImagesInDirectory(directory, "lyond", 20);
-	insertNImagesInDirectory(directory, "macci", n);
+	//insertNImagesInDirectory(directory, "macci", n);
 	// insertNImagesInDirectory(directory, "martin", 20);
 	// insertNImagesInDirectory(directory, "michael", 20);
 	// insertNImagesInDirectory(directory, "moors", 20);
@@ -239,7 +283,7 @@ void insertFemaleImages(string directory, int n){
 	// insertNImagesInDirectory(directory, "anpage", 20);
 	// insertNImagesInDirectory(directory, "asamma", 20);
 	// insertNImagesInDirectory(directory, "asewil", 20);
-	insertNImagesInDirectory(directory, "astefa", n);
+	//insertNImagesInDirectory(directory, "astefa", n);
 	// insertNImagesInDirectory(directory, "drbost", 20);
 	// insertNImagesInDirectory(directory, "ekavaz", 20);
 	// insertNImagesInDirectory(directory, "elduns", 20);
@@ -248,7 +292,7 @@ void insertFemaleImages(string directory, int n){
 	// insertNImagesInDirectory(directory, "klclar", 20);
 	// insertNImagesInDirectory(directory, "ksunth", 20);
 	// insertNImagesInDirectory(directory, "lfso", 20);
-	insertNImagesInDirectory(directory, "mbutle", n);
+	//insertNImagesInDirectory(directory, "mbutle", n);
 	// insertNImagesInDirectory(directory, "phughe", 20);
 	// insertNImagesInDirectory(directory, "sbains", 20);
 	// insertNImagesInDirectory(directory, "slbirc", 20);

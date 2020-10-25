@@ -77,8 +77,9 @@ public:
 				++itr_child;
 			}
 			fb_heap.remove(aux);
-			nodo_min = GetNewMinNodo();
+			--fh_size;
 			Compactar();
+			nodo_min = GetNewMinNodo();
 			return aux;
 		}
 		else
