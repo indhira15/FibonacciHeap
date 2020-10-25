@@ -77,6 +77,10 @@ int main() {
 			}
  		}
 	}
+	int n_personas = 6;
+	for(int i=1; i<n_personas; ++i){
+		grafo.pop_back();
+	}
 
 /*
 	for (int i = 0; (i < size_f) & (grafo.size()<number_of_nodos-1); ++i) {
