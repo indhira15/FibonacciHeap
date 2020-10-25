@@ -14,12 +14,18 @@ using namespace std;
 
 vector<VectorCaracteristico<float>*> vectoresCaracteristicos;
 
+enum distanceMethod {
+	EUCLIDEAN,
+	MANHATTAN,
+	CHEBYSHEV
+};
+
 void insertNImagesInDirectory(string base, string directory, int nFiles);
 void insertFemaleImages(string directory, int n);
 void insertMaleImages(string directory, int n);
 void insertMaleStaffImages(string directory, int n);
 void generatePDF(list<Arista<float>*>& grafo);
-
+float getDistance(vector<float>& vc1, vector<float>& vc2, distanceMethod method);
 
 int main() {
 	Fibonacci_heap<float, Arista<float>> *fh = new Fibonacci_heap<float, Arista<float>>();
@@ -46,12 +52,9 @@ int main() {
 		for (int j = i+1; j < vectoresCaracteristicos.size(); ++j, ++n) {
 			auto vc2 = *vectoresCaracteristicos[j]->get();
 			//cout << n << "\n";
-			float acc = 0.0;
-			for (int k = 0; k < vc1.size(); ++k) {
-				acc += pow(float(vc1[k] - vc2[k]), 2);
-			}
+			float distance = getDistance(vc1, vc2, EUCLIDEAN); // EUCLIDEAN, MANHATTAN, CHEBYSHEV
 			// chequear si esta bien
-			Arista<float>* arista = new Arista<float>(vectoresCaracteristicos[i], vectoresCaracteristicos[j], acc);
+			Arista<float>* arista = new Arista<float>(vectoresCaracteristicos[i], vectoresCaracteristicos[j], distance);
 			fh->Insert(arista->weight, arista);
 		}
 	}
@@ -136,9 +139,40 @@ void generatePDF(list<Arista<float>*>& grafo) {
           graph.close();
      }
      if (fileWasOpened) {
-          system("sfdp -Tpdf graph.vz -o grafo.pdf");
-          system("open grafo.pdf");
+          system("sfdp -Tpdf graph.vz -o chebyshev.pdf");
+          system("open chebyshev.pdf");
      }
+}
+
+float getDistance(vector<float>& vc1, vector<float>& vc2, distanceMethod method) {
+	switch (method) {
+	case EUCLIDEAN: {
+		float acc = 0.0;
+		for (int k = 0; k < min(vc1.size(), vc2.size()); ++k) {
+			acc += pow(float(vc1[k] - vc2[k]), 2);
+		}
+		return acc;
+		break;
+	}
+	case MANHATTAN: {
+		float acc = 0.0;
+		for (int k = 0; k < min(vc1.size(), vc2.size()); ++k) {
+			acc += abs(vc1[k] - vc2[k]);
+		}
+		return acc;
+		break;
+	}
+	case CHEBYSHEV: {
+		float acc = FLT_MIN;
+		for (int k = 0; k < min(vc1.size(), vc2.size()); ++k) {
+			acc = max(acc, vc1[k]-vc2[k]);
+		}
+		return acc;
+		break;
+	}
+	default:
+		break;
+	}
 }
 
 void insertMaleStaffImages(string directory, int n) {

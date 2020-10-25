@@ -17,7 +17,7 @@ class VectorCaracteristico {
      vector<T>* vc;
 
 public:
-     char imgPath[100];
+     char imgPath[200];
      VectorCaracteristico(const char* imgPath) {
           strcpy(this->imgPath, imgPath);
           CImg<T> A(imgPath);
