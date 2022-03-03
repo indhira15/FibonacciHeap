@@ -1,6 +1,6 @@
 
 #### Resultados
-![](images_readme/fibonacciHeapResult.png)
+![](readme_images/fibonacciHeapResult.png)
 ### Files
 
 Arista.h and NodoF.h : graph structure with templates
