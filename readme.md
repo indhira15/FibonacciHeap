@@ -1,5 +1,5 @@
 
-#### Resultados
+#### Results
 ![](readme_images/fibonacciHeapResult.png)
 ### Files
 
